@@ -38,8 +38,9 @@ class AboutDialog(QDialog):
 
         # Convert the build number text to an integer
         build_number = int(build_number_text)
-        
         layout.addWidget(QLabel("Build " + str(build_number)))
+        layout.addWidget(QLabel("If you see that certain builds aren't published, this is because we also include test builds."))
+        layout.addWidget(QLabel("Do not distribute any of KSR Web's source code as your own unless you want to risk facing legal issues."))
 
         for i in range(0, layout.count()):
             layout.itemAt(i).setAlignment(Qt.AlignHCenter)
@@ -66,6 +67,7 @@ class MainWindow(QMainWindow):
         navtb = QToolBar("Navigation")
         navtb.setIconSize(QSize(16, 16))
         self.addToolBar(navtb)
+        self.setUnifiedTitleAndToolBarOnMac(True)
 
         back_btn = QAction(QIcon(os.path.join('assets', 'BackArrow.png')), "Back", self)
         back_btn.setStatusTip("Back to previous page")
@@ -161,7 +163,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("%s - KSR Web" % title)
 
     def navigate_mozarella(self):
-        self.browser.setUrl(QUrl("https://www.ksr-industries.com"))
+        self.browser.setUrl(QUrl("http://www.ksr-industries.com"))
 
     def about(self):
         dlg = AboutDialog()
@@ -225,7 +227,99 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
+    from PyQt5.QtWidgets import QApplication, QPushButton
+
+    app = QApplication([])
+    app.setStyleSheet("""
+QWidget {
+    background-color: #f5f5f5;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    color: #000;
+}
+
+QLabel {
+    font-weight: bold;
+}
+
+QLineEdit {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 4px;
+}
+
+QPushButton {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 4px 8px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #e0e0e0;
+}
+
+QPlainTextEdit {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 4px;
+}
+
+QScrollBar {
+    width: 8px;
+    background-color: #f5f5f5;
+}
+
+QScrollBar:vertical {
+    border: none;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+QScrollBar::add-line:vertical {
+    border: none;
+    background-color: #f5f5f5;
+}
+
+QScrollBar::sub-line:vertical {
+    border: none;
+    background-color: #f5f5f5;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background-color: #f5f5f5;
+}
+
+QStatusBar {
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+QToolBar {
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ccc;
+    padding: 4px;
+}
+
+QToolButton {
+    background-color: #f5f5f5;
+    border: none;
+    padding: 4px;
+    margin-right: 4px;
+}
+
+QToolButton:hover {
+    background-color: #e0e0e0;
+}
+
+    """)
     app.setApplicationName("KSR Web")
     app.setWindowIcon(QIcon(os.path.join('assets', 'KSRWeb.png')))
     window = MainWindow()
